@@ -1,5 +1,6 @@
 package com.example.java_udemy;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.example.java_udemy.domain.Cidade;
 import com.example.java_udemy.domain.Cliente;
 import com.example.java_udemy.domain.Endereco;
 import com.example.java_udemy.domain.Estado;
+import com.example.java_udemy.domain.Pagamento;
+import com.example.java_udemy.domain.PagamentoCartao;
+import com.example.java_udemy.domain.PagamentoComBoleto;
+import com.example.java_udemy.domain.Pedido;
 import com.example.java_udemy.domain.Produto;
+import com.example.java_udemy.domain.enums.EstadoPagamento;
 import com.example.java_udemy.domain.enums.TipoCliente;
 import com.example.java_udemy.repositories.CategoriaRepository;
 import com.example.java_udemy.repositories.CidadeRepository;
 import com.example.java_udemy.repositories.ClienteRepository;
 import com.example.java_udemy.repositories.EnderecoRepository;
 import com.example.java_udemy.repositories.EstadoRepository;
+import com.example.java_udemy.repositories.PagamentoRepository;
+import com.example.java_udemy.repositories.PedidoRepository;
 import com.example.java_udemy.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -31,16 +39,22 @@ public class JavaUdemyApplication implements CommandLineRunner { //CommandLineRu
 	private ProdutoRepository produtoRepository;
 	
 	@Autowired
-	CidadeRepository cidadeRepository;
+	private CidadeRepository cidadeRepository;
 	
 	@Autowired
-	EstadoRepository estadoRepository;
+	private EstadoRepository estadoRepository;
 	
 	@Autowired
-	ClienteRepository clienteRepository;
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
-	EnderecoRepository enderecoRepository;
+	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(JavaUdemyApplication.class, args);
@@ -101,6 +115,20 @@ public class JavaUdemyApplication implements CommandLineRunner { //CommandLineRu
 		clienteRepository.saveAll(Arrays.asList(cli1)); //Como o Cliente é independente do Endereço, ele é salvo primeiro 
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("29/03/2003 10:50"), cli1, e1);
+		Pedido ped2 = new Pedido(null,sdf.parse("15/12/2010 11:45"), cli1, e2);
+		
+		Pagamento pagtp1 = new PagamentoCartao(null,EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagtp1);
+		Pagamento pagtp2 = new PagamentoComBoleto(null,EstadoPagamento.PENDENTE, ped2,sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagtp2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagtp1,pagtp2));
 	}
 	
 }
