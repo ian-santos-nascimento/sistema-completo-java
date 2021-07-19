@@ -16,7 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //Lá na Checlist eu veo que é uma associação de 1(ou mais) categoria, para muitos Produtos, então vamos criar uma lista lá.
 //Como posso ter mais de uma categoria, então vou criar uma lista aqui também de Categoria
@@ -33,11 +33,13 @@ public class Produto implements Serializable {
 	private String nome;
 	private double preço;
 	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 
 	
-	@JsonBackReference                                //Omiti a lista  de categorias para cada produto pra não ocorrer um erro cíclico
+	@JsonIgnore                              //Omiti a lista  de categorias para cada produto pra não ocorrer um erro cíclico
 	@ManyToMany    		                                  //Fazer essa anotação em apenas um dos objetos que vou relacionar
 	@JoinTable(name="PRODUTO-CATEGORIA",			       //Para relacionar um muitos pra muitos, é criada uma terceira tabela entre as duas que quero relacioanr, usando JoinTable
 		joinColumns = @JoinColumn(name = "produto_id"),       //Chave estrangeira do produto
@@ -57,7 +59,7 @@ public class Produto implements Serializable {
 		this.nome = nome;
 		this.preço = preço;
 	}
-	
+	@JsonIgnore
 	public List<Pedido> getPedidos(){
 		List<Pedido> lista = new ArrayList<>();
 		for(ItemPedido x: itens ) { //Pra cada item da lista itens, eu vou adiciona-la na Array lista

@@ -12,6 +12,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.example.java_udemy.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED) //Usar isso porque existe duas sub-classes da classe Pagamento
@@ -26,8 +27,10 @@ public abstract class Pagamento implements Serializable {  //O abstract serve pr
 	
 	//Como é OneToOne, vamos querer que o Id do Pagamento seja o mesmo do Pedido, por isso usar o @MapsId
 	@OneToOne
+
 	@JoinColumn(name="pedidos_id")
 	@MapsId
+	@JsonIgnore
 	private Pedido pedido;
 	
 	public Pagamento() {

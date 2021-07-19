@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 
@@ -27,7 +26,7 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome; 
 	
-	@JsonManagedReference                //Fazer isso no objeto aonde eu quero receber os objetos associados
+	//@JsonManagedReference                //Fazer isso no objeto aonde eu quero receber os objetos associados. att: Tem bug, então retirei
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
