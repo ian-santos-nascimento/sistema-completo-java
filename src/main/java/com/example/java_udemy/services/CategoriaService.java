@@ -1,6 +1,7 @@
 package com.example.java_udemy.services;
 //Esta é a camada que vai ser a Camada de Serviço, que vai servir a Camada Rest
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,9 @@ public class CategoriaService {
 		catch (DataIntegrityViolationException e){
 			throw new DataIntegrityException("Não foi possível realizar essa operação de exclusão");
 		}
+	}
+	
+	public List<Categoria> findAll(){
+		return repo.findAll();
 	}
 }

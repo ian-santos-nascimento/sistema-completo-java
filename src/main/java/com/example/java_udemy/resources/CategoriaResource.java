@@ -2,6 +2,10 @@ package com.example.java_udemy.resources;
 //Esta camada é a de Controladores Rest, ela vai conversar com os Objetos de Serviço e obter deles uma categoria
 
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.java_udemy.domain.Categoria;
+import com.example.java_udemy.dto.CategoriaDTO;
 import com.example.java_udemy.services.CategoriaService;
 
   
@@ -66,5 +71,18 @@ public class CategoriaResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	//Para retornar todas as categorias
+	
+	@RequestMapping(method=RequestMethod.GET)  
+	public @ResponseBody ResponseEntity<List<CategoriaDTO>> findAll() {   
+		
+		List<Categoria> lista = service.findAll();
+		List<CategoriaDTO> listaDTO = lista.stream().map( element ->
+		new CategoriaDTO(element)).collect(Collectors.toList());  //Cada obj da lista do tipo Categoria vai ser transformada em tipo CategoriaDTO
+		
+		return  ResponseEntity.ok().body(listaDTO);  
+	}
+
 }
  
