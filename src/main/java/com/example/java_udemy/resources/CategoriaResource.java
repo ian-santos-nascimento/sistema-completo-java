@@ -3,15 +3,16 @@ package com.example.java_udemy.resources;
 
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -83,6 +84,18 @@ public class CategoriaResource {
 		
 		return  ResponseEntity.ok().body(listaDTO);  
 	}
-
+	@RequestMapping(value="/page", method=RequestMethod.GET)  
+	public @ResponseBody ResponseEntity<Page<CategoriaDTO>> findPage(
+			@RequestParam(name = "page_id", defaultValue = "0")Integer page_id,
+			@RequestParam(name = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
+			@RequestParam(name = "orderBy", defaultValue = "nome")String orderBy, 
+			@RequestParam(name = "page_direction", defaultValue = "asc")String direction) {   
+		
+		Page<Categoria> lista = service.findPage(page_id, linesPerPage, orderBy, direction);
+		Page<CategoriaDTO> listaDTO = lista.map( element -> new CategoriaDTO(element));  //Cada obj da lista do tipo Categoria vai ser transformada em tipo CategoriaDTO
+		
+		return  ResponseEntity.ok().body(listaDTO);  
+	}
 }
+	
  
