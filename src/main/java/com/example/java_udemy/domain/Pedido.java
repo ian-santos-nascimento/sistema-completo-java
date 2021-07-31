@@ -26,6 +26,7 @@ public class Pedido implements Serializable {
 	private Integer id;
 	private Date instante;
 	
+	//Como é OneToOne, precisamos usar o cascade = CascadeType.ALL 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido") //Necessário para não haver erro de entidade transiente quando for salvar o Pedido e Pagamento
 	private Pagamento pagamento;
 	

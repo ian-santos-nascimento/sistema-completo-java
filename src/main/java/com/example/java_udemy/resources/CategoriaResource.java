@@ -5,6 +5,8 @@ package com.example.java_udemy.resources;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +54,8 @@ public class CategoriaResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	// ResponseEntity<Void> quer dizer que o body da resposta HTTP vai tá vazia
-	public ResponseEntity<Void> insert (@RequestBody Categoria obj){  //RequestBody vai fazer com que o Json seja convertido num Objeto
+	public ResponseEntity<Void> insert (@Valid @RequestBody CategoriaDTO objDTO){  //RequestBody vai fazer com que o Json seja convertido num Objeto
+		Categoria obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		java.net.URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") //O fromCurrentRequest se refere ao request  da classe ((value="/categorias")
 				.buildAndExpand(obj.getId()).toUri();   
@@ -61,7 +64,8 @@ public class CategoriaResource {
 	
 	//Como eu quero que o id permaneça o mesmo, eu devo usar o value="/{id}"
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update (@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update (@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id){
+		Categoria obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
@@ -84,8 +88,9 @@ public class CategoriaResource {
 		
 		return  ResponseEntity.ok().body(listaDTO);  
 	}
+
 	@RequestMapping(value="/page", method=RequestMethod.GET)  
-	public @ResponseBody ResponseEntity<Page<CategoriaDTO>> findPage(
+ 	public @ResponseBody ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(name = "page_id", defaultValue = "0")Integer page_id,
 			@RequestParam(name = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
 			@RequestParam(name = "orderBy", defaultValue = "nome")String orderBy, 

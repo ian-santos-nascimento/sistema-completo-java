@@ -1,6 +1,9 @@
 package com.example.java_udemy.dto;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.example.java_udemy.domain.Categoria;
 
@@ -10,6 +13,8 @@ public class CategoriaDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	Integer id;
+	@NotEmpty(message = "Esta informação é obrigatória.")
+	@Length(min = 3, max = 40, message = "Mínimo de 3 letras e máixmo de 40!")
 	String nome;
 	
 	public CategoriaDTO() {

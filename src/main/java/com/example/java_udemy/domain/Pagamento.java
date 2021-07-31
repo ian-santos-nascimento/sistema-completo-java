@@ -3,7 +3,6 @@ package com.example.java_udemy.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -26,7 +25,7 @@ public abstract class Pagamento implements Serializable {  //O abstract serve pr
 	private Integer id;
 	private Integer estado;
 	
-	//Como é OneToOne, precisamos usar o cascade = CascadeType.ALL 
+	
 	//Vamos querer que o Id do Pagamento seja o mesmo do Pedido, por isso usar o @MapsId
 	@OneToOne
 	@JoinColumn(name="pedidos_id")
