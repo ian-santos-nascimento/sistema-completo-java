@@ -5,20 +5,24 @@ import java.io.Serializable;
 
 
 
+
 public class StandardError implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	
 	private Integer status;
 	private String mensagemError;
 	private long timeStamp;
+	
+	
 	public StandardError(Integer notFound, String mensagemError, long timeStamp) {
 		super();
 		this.status = notFound;
 		this.mensagemError = mensagemError;
 		this.timeStamp = timeStamp;
 	}
+	
+	
 	public Integer getStatusHTTP() {
 		return status;
 	}
@@ -37,5 +41,5 @@ public class StandardError implements Serializable {
 	public void setTimeStamp(long timeStamp) {
 		this.timeStamp = timeStamp;
 	}
-	
+
 }
