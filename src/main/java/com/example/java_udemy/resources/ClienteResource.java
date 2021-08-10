@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +16,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.java_udemy.domain.Cliente;
-import com.example.java_udemy.domain.Cliente;
 import com.example.java_udemy.dto.ClienteDTO;
+import com.example.java_udemy.dto.ClienteNewDTO;
 import com.example.java_udemy.services.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes")
 public class ClienteResource {
+	
 	@Autowired
 	private ClienteService service;
 	
@@ -31,6 +34,16 @@ public class ClienteResource {
 	public @ResponseBody ResponseEntity<Cliente> retorno (@PathVariable Integer id){
 		Cliente obj = service.buscar(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	 
+	@RequestMapping(method = RequestMethod.POST)
+	@Transactional
+	public ResponseEntity<Void> insert (@Valid @RequestBody ClienteNewDTO objDTO){  //RequestBody vai fazer com que o Json seja convertido num Objeto
+		Cliente obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		java.net.URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") //O fromCurrentRequest se refere ao request  da classe ((value="/categorias")
+				.buildAndExpand(obj.getId()).toUri();   
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)

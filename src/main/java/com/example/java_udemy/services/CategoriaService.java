@@ -38,10 +38,10 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 	public Categoria update(Categoria obj) {
-		buscar(obj.getId());  //Serve pra buscar o Id e ver se ele existe
-		return repo.save(obj);
+		Categoria newobj = buscar(obj.getId());
+		updateData(newobj, obj);
+		return repo.save(newobj);
 	}
-	
 	public void delete(Integer id) {
 		buscar(id);
 		try {
@@ -57,12 +57,15 @@ public class CategoriaService {
 	}
 	
 	//"Page" é uma classe especial do SpringData
-		public Page<Categoria>findPage(Integer page_id, Integer linesPerPage, String orderBy, String direction){
-			PageRequest pageRequest = PageRequest.of(page_id,linesPerPage,Direction.valueOf(direction),orderBy);
-			return repo.findAll(pageRequest);
-		}
-		
-		public Categoria fromDTO(CategoriaDTO objDTO) {
-			return new Categoria(objDTO.getId(), objDTO.getNome()); 
-		}
+	public Page<Categoria>findPage(Integer page_id, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = PageRequest.of(page_id,linesPerPage,Direction.valueOf(direction),orderBy);
+		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome()); 
+	}
+	private void updateData (Categoria newObj,Categoria obj ) {
+		newObj.setNome(obj.getNome());
+	}
 }
