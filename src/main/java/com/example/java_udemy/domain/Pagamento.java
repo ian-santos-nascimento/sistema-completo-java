@@ -23,6 +23,7 @@ public abstract class Pagamento implements Serializable {  //O abstract serve pr
 	
 	@Id
 	private Integer id;
+	
 	private Integer estado;
 	
 	

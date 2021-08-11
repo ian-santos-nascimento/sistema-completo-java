@@ -2,22 +2,44 @@ package com.example.java_udemy.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.example.java_udemy.services.validation.ClienteInsert;
+
+@ClienteInsert(message = "CPF ou CNPJ inváldio")
 public class ClienteNewDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	
+	@NotBlank(message = "Preencha este campo!")
+	@Length(min = 5, max = 80, message = "Mínimo de 3 letras e máixmo de 40!")
 	private String nome;
-	private String email;
-	private String cpf_Ou_Cnpj;
-	private Integer tipoCliente;
 	
+	@NotBlank(message = "Preencha este campo!")
+	@Email(message = "Email inválido")
+	private String email;
+	
+	@NotBlank(message = "Preencha este campo!")
+	private String cpf_Ou_Cnpj;
+	
+	private Integer tipoCliente;
+
+	@NotBlank(message = "Preencha este campo!")
 	private String logradouro;
+	
+	@NotBlank(message = "Preencha este campo!")
 	private String numero;
 	private String complemento;
 	private String bairro;
+	
+	@NotBlank(message = "Preencha este campo!")
 	private String cep;
 	
+	@NotBlank(message = "Preencha este campo!")
 	private String telefone;
 	private Integer cidadeId;
 	
