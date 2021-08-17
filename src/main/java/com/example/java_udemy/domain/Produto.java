@@ -31,20 +31,18 @@ public class Produto implements Serializable {
 	private Integer id;
 	
 	private String nome;
-	private double preço;
+	private double preco;
 	
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 
-	
-	@JsonIgnore                              //Omiti a lista  de categorias para cada produto pra não ocorrer um erro cíclico
-	@ManyToMany    		                                  //Fazer essa anotação em apenas um dos objetos que vou relacionar
+	@JsonIgnore                              //Omiti a lista  de categorias para cada produto pra não ocorrer um erro cíclico                                //Fazer essa anotação em apenas um dos objetos que vou relacionar
+	@ManyToMany
 	@JoinTable(name="PRODUTO-CATEGORIA",			       //Para relacionar um muitos pra muitos, é criada uma terceira tabela entre as duas que quero relacioanr, usando JoinTable
 		joinColumns = @JoinColumn(name = "produto_id"),       //Chave estrangeira do produto
 		inverseJoinColumns = @JoinColumn(name= "categoria_id")) //Chave estrangeira da categoria    
-	
 	private List<Categoria>categorias= new ArrayList<>();
 	
 	
@@ -57,8 +55,10 @@ public class Produto implements Serializable {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.preço = preço;
+		this.preco = preço;
 	}
+	
+	
 	@JsonIgnore
 	public List<Pedido> getPedidos(){
 		List<Pedido> lista = new ArrayList<>();
@@ -98,13 +98,13 @@ public class Produto implements Serializable {
 	}
 
 
-	public double getPreço() {
-		return preço;
+	public double getPreco() {
+		return preco;
 	}
 
 
-	public void setPreço(double preço) {
-		this.preço = preço;
+	public void setPreco(double preco) {
+		this.preco = preco;
 	}
 	
 	public Set<ItemPedido> getItens() {

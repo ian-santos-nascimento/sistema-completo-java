@@ -1,7 +1,9 @@
 package com.example.java_udemy.repositories;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.java_udemy.domain.Cliente;
 
@@ -11,4 +13,6 @@ import com.example.java_udemy.domain.Cliente;
 @Repository                                          //Tipo do objeto-Tipo do atributo identificador do objeto
 public interface ClienteRepository extends JpaRepository <Cliente, Integer>  {
 	 
+	@Transactional(readOnly = true)
+	Cliente findByEmail(String email); 
 }

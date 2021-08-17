@@ -9,7 +9,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.example.java_udemy.services.validation.ClienteInsert;
 
-@ClienteInsert(message = "CPF ou CNPJ inváldio")
+
+@ClienteInsert(message = "Este CPF não existe")
 public class ClienteNewDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -23,7 +24,6 @@ public class ClienteNewDTO implements Serializable{
 	@Email(message = "Email inválido")
 	private String email;
 	
-	@NotBlank(message = "Preencha este campo!")
 	private String cpf_Ou_Cnpj;
 	
 	private Integer tipoCliente;
@@ -39,27 +39,10 @@ public class ClienteNewDTO implements Serializable{
 	@NotBlank(message = "Preencha este campo!")
 	private String cep;
 	
-	@NotBlank(message = "Preencha este campo!")
 	private String telefone;
 	private Integer cidadeId;
 	
 	public ClienteNewDTO() {
-	}
-
-	public ClienteNewDTO(String nome, String email, String cpf_Ou_Cnpj, Integer tipoCliente, String logradouro,
-			String numero, String complemento, String bairro, String cep, String telefone, Integer cidadeId) {
-		super();
-		this.nome = nome;
-		this.email = email;
-		this.cpf_Ou_Cnpj = cpf_Ou_Cnpj;
-		this.tipoCliente = tipoCliente;
-		this.logradouro = logradouro;
-		this.numero = numero;
-		this.complemento = complemento;
-		this.bairro = bairro;
-		this.cep = cep;
-		this.telefone = telefone;
-		this.cidadeId = cidadeId;
 	}
 
 	

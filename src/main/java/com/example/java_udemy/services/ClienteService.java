@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.java_udemy.domain.Cidade;
 import com.example.java_udemy.domain.Cliente;
@@ -34,10 +35,10 @@ public class ClienteService {
 	public Cliente buscar(Integer id) {
 		 Optional<Cliente> cliente = clienterepo.findById(id);
 		 return cliente.orElseThrow( () -> new ObjectNotFoundException(
-				 "Não foi possível encontrar esse cliente. Id: " + id + "Categoia" + Cliente.class.getName()));
+				 "Não foi possível encontrar esse cliente. Id: " + id + "Cliente" + Cliente.class.getName()));
 	}
 	 
-	
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);  //Fazer isso pois se não for nulo, ele irá pensar que é uma atualização e não novo elemento
 		obj = clienterepo.save(obj);
@@ -80,11 +81,15 @@ public class ClienteService {
 	}
 	
 	public Cliente fromDTO(ClienteNewDTO objDTO) {
-		Cliente cliente = new Cliente(null, objDTO.getNome(), objDTO.getEmail(),objDTO.getCpf_Ou_Cnpj(),TipoCliente.toEnum(objDTO.getTipoCliente()));
+		Cliente cliente = new Cliente(null, objDTO.getNome(), objDTO.getEmail(),objDTO.getCpf_Ou_Cnpj(),TipoCliente.PESSOAFISICA);
 		Cidade cidade = new Cidade(null, null, objDTO.getCidadeId());
 		Endereco endereco = new Endereco(null, objDTO.getNome(), objDTO.getNumero(),objDTO.getComplemento(), objDTO.getBairro(),objDTO.getCep(), cliente, cidade);
 		cliente.getEnderecos().add(endereco);
 		cliente.getTelefones().add(objDTO.getNumero());
+		if (objDTO.getTelefone()!=null) {
+			cliente.getTelefones().add(objDTO.getTelefone());
+		}
+		
 		return cliente;
 	}
 	
