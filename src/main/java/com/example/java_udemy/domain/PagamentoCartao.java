@@ -3,8 +3,10 @@ package com.example.java_udemy.domain;
 import javax.persistence.Entity;
 
 import com.example.java_udemy.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("pagamentoCartao")
 public class PagamentoCartao extends Pagamento {
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +30,5 @@ public class PagamentoCartao extends Pagamento {
 	public void setNumeroParcelas(Integer numeroParcelas) {
 		this.numeroParcelas = numeroParcelas;
 	}
-	
-	
+
 }

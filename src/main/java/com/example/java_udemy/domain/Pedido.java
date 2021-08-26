@@ -1,5 +1,7 @@
 package com.example.java_udemy.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,9 +26,12 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
 	
-	//Como é OneToOne, precisamos usar o cascade = CascadeType.ALL 
+	//Como é OneToOne, precisamos usar o cascade = CascadeType.ALL
+
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido") //Necessário para não haver erro de entidade transiente quando for salvar o Pedido e Pagamento
 	private Pagamento pagamento;
 	
@@ -43,7 +48,6 @@ public class Pedido implements Serializable {
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	public Pedido() {
-		
 	}
 
 	public Pedido(Integer id, Date instante , Cliente cliente, Endereco enderecoDeEntrega) {
@@ -53,6 +57,15 @@ public class Pedido implements Serializable {
 		
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+
+	public double getValorTotal(){
+		double soma = 0.0;
+		for (ItemPedido item: itens) {
+			soma = soma + item.getSubTotal();
+		}
+		return soma;
 	}
 
 	public Integer getId() {
@@ -102,6 +115,8 @@ public class Pedido implements Serializable {
 	public void setItens(Set<ItemPedido> itens) {
 		this.itens = itens;
 	}
+
+
 
 	@Override
 	public int hashCode() {

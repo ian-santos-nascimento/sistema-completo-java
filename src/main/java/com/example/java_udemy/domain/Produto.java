@@ -34,28 +34,28 @@ public class Produto implements Serializable {
 	private double preco;
 	
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "id.produto")
-	private Set<ItemPedido> itens = new HashSet<>();
 
 	@JsonIgnore                              //Omiti a lista  de categorias para cada produto pra não ocorrer um erro cíclico                                //Fazer essa anotação em apenas um dos objetos que vou relacionar
 	@ManyToMany
 	@JoinTable(name="PRODUTO-CATEGORIA",			       //Para relacionar um muitos pra muitos, é criada uma terceira tabela entre as duas que quero relacioanr, usando JoinTable
 		joinColumns = @JoinColumn(name = "produto_id"),       //Chave estrangeira do produto
-		inverseJoinColumns = @JoinColumn(name= "categoria_id")) //Chave estrangeira da categoria    
+		inverseJoinColumns = @JoinColumn(name= "categoria_id")) //Chave estrangeira da categoria
 	private List<Categoria>categorias= new ArrayList<>();
-	
-	
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemPedido> itens = new HashSet<>();
+
 	public Produto() {
 		
 	}
 
 
-	public Produto(Integer id, String nome, double preço) { //Como a categorias ja foi iniciada, ela ja entra no construtor
+	public Produto(Integer id, String nome, double preco) { //Como a categorias ja foi iniciada, ela ja entra no construtor
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.preco = preço;
+		this.preco = preco;
 	}
 	
 	

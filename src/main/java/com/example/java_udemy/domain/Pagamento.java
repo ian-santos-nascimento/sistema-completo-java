@@ -13,9 +13,11 @@ import javax.persistence.OneToOne;
 
 import com.example.java_udemy.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED) //Usar isso porque existe duas sub-classes da classe Pagamento
+@Inheritance(strategy=InheritanceType.JOINED)
+@JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable {  //O abstract serve pra não ser possível instanciar objetos dessa classe
 
 
