@@ -36,13 +36,10 @@ public class ProdutoResource {
 	private ProdutoService service;   //Isso serve para acessar o serviço e lá o metodo vai acessar o objeto de acesso aos dados(repo)
 	
 	
-	@RequestMapping( value ="/{id}", method=RequestMethod.GET)  
-	
+	@RequestMapping( value ="/{id}", method=RequestMethod.GET)
 	 //Esse @ResponseBody é para dizer para o metodo retornar um valor que está de acordo com o body da resposta HTTP
-	public @ResponseBody ResponseEntity<Produto> find(@PathVariable Integer id) {   //Para o "id" do value ="/{id}" ir para o Integer id, usamos o @PathVariable 
-		
+	public @ResponseBody ResponseEntity<Produto> find(@PathVariable Integer id) {   //Para o "id" do value ="/{id}" ir para o Integer id, usamos o @PathVariable
 		Produto obj = service.find(id);
-		
 		return  ResponseEntity.ok().body(obj);  //Se estiver ok ele vai retornar como corpo o objeto obj(Que é a categoria)
 		
 	}

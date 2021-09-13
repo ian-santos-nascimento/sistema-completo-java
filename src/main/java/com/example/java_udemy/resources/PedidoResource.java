@@ -12,6 +12,7 @@ import com.example.java_udemy.services.PedidoService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/pedidos")
@@ -28,7 +29,10 @@ public class PedidoResource {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert (@Valid @RequestBody Pedido obj){  //RequestBody vai fazer com que o Json seja convertido num Objeto
-		 obj = pedidoservice.insert(obj);
+		if(obj.getInstante() == null){
+			obj.setInstante(new Date());
+		}
+		 pedidoservice.insert(obj);
 		java.net.URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") //O fromCurrentRequest se refere ao request  da classe ((value="/pedidos/")
 				.buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();

@@ -20,11 +20,13 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	private String nome;
+
 	@ManyToOne                //Muitas cidades pra um Estado(Many to One)
 	@JoinColumn(name = "estado_id")
 	private Estado estado;   //Como uma cidade só há um Estado, então não precisa de lista
 	
-	private String nome;
+
 	
 	
 	

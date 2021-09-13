@@ -6,16 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-
+import javax.persistence.*;
 
 
 @Entity                                         //Pra indicar que vai ser a entidade do JPA
+@Table(name = "Categoria")
 public class Categoria implements Serializable { 
    //Serializable serve para converter os objetos da classe em sequência de bytes, ou seja,permite os objetos serem gravados em arquivos e trafegar em rede
 
