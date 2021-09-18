@@ -23,7 +23,8 @@ public class ClienteNewDTO implements Serializable{
 	@NotBlank(message = "Preencha este campo!")
 	@Email(message = "Email inválido")
 	private String email;
-	
+	@NotBlank(message = "Preencha este campo")
+	private String senha;
 	private String cpf_Ou_Cnpj;
 	
 	private Integer tipoCliente;
@@ -85,8 +86,22 @@ public class ClienteNewDTO implements Serializable{
 	public void setTipoCliente(Integer tipoCliente) {
 		this.tipoCliente = tipoCliente;
 	}
+	
+	
 
 	
+	public String getSenha() {
+		return senha;
+	}
+
+
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+
+
 	public String getLogradouro() {
 		return logradouro;
 	}
