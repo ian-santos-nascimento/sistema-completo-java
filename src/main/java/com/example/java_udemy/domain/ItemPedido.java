@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import java.util.Objects;
+
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -12,8 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ItemPedido implements Serializable{
-	
-	
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
@@ -40,6 +41,8 @@ public class ItemPedido implements Serializable{
 	public Double getSubTotal(){
 		return (preco - desconto) * quantidade;
 	}
+
+
 
 	@JsonIgnore
 	public Pedido getPedido() {
@@ -91,7 +94,6 @@ public class ItemPedido implements Serializable{
 		this.preco = preco;
 	}
 
-	
 
 	@Override
 	public int hashCode() {
@@ -134,5 +136,5 @@ public class ItemPedido implements Serializable{
 		return builder.toString();
 	}
 
-	
+
 }

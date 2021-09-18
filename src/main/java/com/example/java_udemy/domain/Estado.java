@@ -18,24 +18,20 @@ public class Estado implements Serializable {
 	
 	
 	private static final long serialVersionUID = 1L;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "estado")
-	private List<Cidade> cidades = new ArrayList<>();   //Dentro de um Estado, existem várias cidades
-	
-	private String nome;
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	
+	private String nome;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "estado")
+	private List<Cidade> cidades = new ArrayList<>();   //Dentro de um Estado, existem várias cidades
+
 	public Estado() {
-		
 	}
-	
-	
+
 	public Estado(String nome, Integer id) {
 		super();
 		this.nome = nome;

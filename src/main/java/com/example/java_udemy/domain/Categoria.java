@@ -9,7 +9,8 @@ import java.util.Objects;
 import javax.persistence.*;
 
 
-@Entity(name="Categoria")                                 //Pra indicar que vai ser a entidade do JPA
+@Entity                                         //Pra indicar que vai ser a entidade do JPA
+@Table(name = "Categoria")
 public class Categoria implements Serializable { 
    //Serializable serve para converter os objetos da classe em sequência de bytes, ou seja,permite os objetos serem gravados em arquivos e trafegar em rede
 

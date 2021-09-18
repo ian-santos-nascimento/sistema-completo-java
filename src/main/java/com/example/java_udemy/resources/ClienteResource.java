@@ -40,7 +40,7 @@ public class ClienteResource {
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) { // RequestBody vai fazer com que o
 																					// Json seja convertido num Objeto
 		Cliente obj = service.fromDTO(objDTO);
-		obj = service.insert(obj);
+		service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
