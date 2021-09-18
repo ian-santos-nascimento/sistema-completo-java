@@ -30,10 +30,10 @@ public abstract class Pagamento implements Serializable {  //O abstract serve pr
 	
 	
 	//Vamos querer que o Id do Pagamento seja o mesmo do Pedido, por isso usar o @MapsId
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedidos_id")
 	@MapsId
-	@JsonIgnore
 	private Pedido pedido;
 	
 	public Pagamento() {

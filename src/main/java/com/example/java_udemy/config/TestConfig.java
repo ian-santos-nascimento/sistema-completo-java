@@ -1,12 +1,15 @@
 package com.example.java_udemy.config;
 
-import com.example.java_udemy.services.DBService;
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.text.ParseException;
+import com.example.java_udemy.services.DBService;
+import com.example.java_udemy.services.EmailService;
+import com.example.java_udemy.services.MockMailService;
 
 @Configuration
 @Profile("test")
@@ -22,5 +25,10 @@ public class TestConfig {
             e.getMessage();
         }
         return true;
+    }
+    
+    @Bean
+    public EmailService emailService() {
+    	return new MockMailService();
     }
 }

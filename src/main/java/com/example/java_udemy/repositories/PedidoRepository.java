@@ -10,5 +10,5 @@ import com.example.java_udemy.domain.Pedido;
 
 @Repository                                          //Tipo do objeto-Tipo do atributo identificador do objeto
 public interface PedidoRepository extends JpaRepository <Pedido, Integer>  {
-	 
+
 }

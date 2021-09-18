@@ -31,4 +31,15 @@ public class PagamentoCartao extends Pagamento {
 		this.numeroParcelas = numeroParcelas;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PagamentoCartao [numeroParcelas=");
+		builder.append(numeroParcelas);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+
 }

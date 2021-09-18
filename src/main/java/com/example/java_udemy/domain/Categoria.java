@@ -6,16 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 
-
-
-@Entity                                         //Pra indicar que vai ser a entidade do JPA
+@Entity(name="Categoria")                                 //Pra indicar que vai ser a entidade do JPA
 public class Categoria implements Serializable { 
    //Serializable serve para converter os objetos da classe em sequência de bytes, ou seja,permite os objetos serem gravados em arquivos e trafegar em rede
 
@@ -24,6 +18,7 @@ public class Categoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Estou definindo a estratégia de geração automatica do Id's das categorias
 	private Integer id;
+	@Column(name="nome")
 	private String nome; 
 	
 	//@JsonManagedReference                //Fazer isso no objeto aonde eu quero receber os objetos associados. att: Tem bug, então retirei
