@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.example.java_udemy.security.JWTAuthenticationFilter;
+import com.example.java_udemy.security.JWTAuthorizationFilter;
 import com.example.java_udemy.security.JWTUtil;
 
 
@@ -60,6 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//Adiciona o filtro que foi criado
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		
+		//Adiciona o flter para autorizar
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, detailsService));
+
 		//Aplicação stateless 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		}
