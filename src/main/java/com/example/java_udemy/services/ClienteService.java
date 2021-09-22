@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.java_udemy.domain.Cidade;
 import com.example.java_udemy.domain.Cliente;
 import com.example.java_udemy.domain.Endereco;
+import com.example.java_udemy.domain.enums.Perfil;
 import com.example.java_udemy.domain.enums.TipoCliente;
 import com.example.java_udemy.dto.ClienteDTO;
 import com.example.java_udemy.dto.ClienteNewDTO;
 import com.example.java_udemy.repositories.ClienteRepository;
 import com.example.java_udemy.repositories.EnderecoRepository;
+import com.example.java_udemy.security.UserSS;
+import com.example.java_udemy.services.exception.AuthorizationException;
 import com.example.java_udemy.services.exception.DataIntegrityException;
 import com.example.java_udemy.services.exception.ObjectNotFoundException;
 
@@ -37,6 +40,13 @@ public class ClienteService {
 	 private EnderecoRepository enderecoRepository;
 	 
 	public Cliente find(Integer id) {
+		
+		//Verifica se o usuário está tendando buscar algum cliente além dele mesmo 
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && user.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+			
+		}
 		 Optional<Cliente> cliente = clienterepo.findById(id);
 		 return cliente.orElseThrow( () -> new ObjectNotFoundException(
 				 "Não foi possível encontrar esse cliente. Id: " + id + "Cliente" + Cliente.class.getName()));
