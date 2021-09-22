@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,8 @@ public class ClienteResource {
 	@Autowired
 	private ClienteService service;
 
+	
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Cliente> retorno(@PathVariable Integer id) {
 		Cliente obj = service.find(id);
@@ -47,6 +50,7 @@ public class ClienteResource {
 		return ResponseEntity.created(uri).build();
 	}
 
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDTO, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(objDTO);
@@ -55,31 +59,20 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	// Para retornar todas as categorias
-
+	// Para retornar todas as categorias paginadas
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<ClienteDTO>> findAll() {
 
 		List<Cliente> lista = service.findAll();
-		List<ClienteDTO> listaDTO = lista.stream().map(element -> new ClienteDTO(element)).collect(Collectors.toList()); // Cada
-																															// obj
-																															// da
-																															// lista
-																															// do
-																															// tipo
-																															// Cliente
-																															// vai
-																															// ser
-																															// transformada
-																															// em
-																															// tipo
-																															// ClienteDTO
+		List<ClienteDTO> listaDTO = lista.stream().map(element -> new ClienteDTO(element)).collect(Collectors.toList()); 
 
 		return ResponseEntity.ok().body(listaDTO);
 	}

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,6 +26,7 @@ import com.example.java_udemy.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) //Permite anotações de pre autorizações para os endpoints
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -40,10 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_MATCHERS	= {
 		"/h2-console/**",
 	};
+	
 	private static final String[] PUBLIC_MATCHES_GET = {
 			"/produtos/**",
 			"/categorias/**"
 	};
+	
+	private static final String[] PUBLIC_MATCHES_POST = {
+			"/clientes/**"
+	};
+	
 	@Override
 	protected void configure (HttpSecurity http) throws Exception {
 		
@@ -55,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//Desativar o CRSF e configurar o cors
 		http.cors().and().csrf().disable();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHES_GET).permitAll()      //Permite apenas o get 
+		.antMatchers(HttpMethod.POST, PUBLIC_MATCHES_POST).permitAll()                          //Para todos conseguirem criar um novo cliente
 		.antMatchers(PUBLIC_MATCHERS).permitAll()												 //Permite fazer tudo com essa url
 		.anyRequest().authenticated();	
 		

@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -61,7 +60,6 @@ public class Cliente implements Serializable {
 	
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE);
-		
 	}
 
 	public Cliente(Integer id, String nome, String email, String cpf_Ou_Cnpj, TipoCliente tipoCliente, String senha) {
@@ -71,7 +69,8 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpf_Ou_Cnpj = cpf_Ou_Cnpj;
-		this.tipoCliente = tipoCliente.getCod();
+		this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCod();
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Integer getId() {

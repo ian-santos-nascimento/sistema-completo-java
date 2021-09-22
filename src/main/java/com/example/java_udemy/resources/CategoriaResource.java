@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +36,11 @@ public class CategoriaResource {
 	O tipo ResponseEntity é um tipo especial do SpringBoost que armazena informações de uma resposta HTTP para um serviço REST
 	*/
 	
-	
 	@Autowired
 	private CategoriaService service;   //Isso serve para acessar o serviço e lá o metodo vai acessar o objeto de acesso aos dados(repo)
 	
 	
 	@RequestMapping( value ="/{id}", method=RequestMethod.GET)  
-	
 	 //Esse @ResponseBody é para dizer para o metodo retornar um valor que está de acordo com o body da resposta HTTP
 	public @ResponseBody ResponseEntity<Categoria> find(@PathVariable Integer id) {   //Para o "id" do value ="/{id}" ir para o Integer id, usamos o @PathVariable 
 		
@@ -51,7 +50,7 @@ public class CategoriaResource {
 		
 	}
 
-	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	// ResponseEntity<Void> quer dizer que o body da resposta HTTP vai tá vazia
 	public ResponseEntity<Void> insert (@Valid @RequestBody CategoriaDTO objDTO){  //RequestBody vai fazer com que o Json seja convertido num Objeto
@@ -62,6 +61,7 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	//Como eu quero que o id permaneça o mesmo, eu devo usar o value="/{id}"
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update (@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id){
@@ -71,6 +71,7 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value= "/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);

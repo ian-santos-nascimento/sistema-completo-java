@@ -32,6 +32,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		this.jwtUtil = jwtUtil;
 	}
 
+	/**
+	 * Faz a tentativa de autenticação, recebendo um input das credenciais que vou verificar usando o @param req
+	 *  injetando elas na classe UsernamePasswordAuthenticationToken do Spring security para receber as credenciais
+	 *  Cria um Authentication na qual recebe essas credenciais instanciadas e faz a autenticação
+	 *  retorna o resultado da autenticação
+	 * 
+	 * @param req 
+	 * @param res
+	 * @exception AuthenticationException
+	 */
+	
 	@Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
