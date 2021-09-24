@@ -33,15 +33,21 @@ public class CategoriaService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Não encontrado. Id: "+ id + "tipo: "+ Categoria.class.getName()));
 				
 	}
+	
+	
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);  //Fazer isso pois se não for nulo, ele irá pensar que é uma atualização e não novo elemento
 		return repo.save(obj);
 	}
+	
+	
 	public Categoria update(Categoria obj) {
 		Categoria newobj = buscar(obj.getId());
 		updateData(newobj, obj);
 		return repo.save(newobj);
 	}
+	
+	
 	public void delete(Integer id) {
 		buscar(id);
 		try {
@@ -56,15 +62,19 @@ public class CategoriaService {
 		return repo.findAll();
 	}
 	
+	
 	//"Page" é uma classe especial do SpringData
 	public Page<Categoria>findPage(Integer page_id, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page_id,linesPerPage,Direction.valueOf(direction),orderBy);
 		return repo.findAll(pageRequest);
 	}
 	
+	
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		return new Categoria(objDTO.getId(), objDTO.getNome()); 
 	}
+	
+	
 	private void updateData (Categoria newObj,Categoria obj ) {
 		newObj.setNome(obj.getNome());
 	}

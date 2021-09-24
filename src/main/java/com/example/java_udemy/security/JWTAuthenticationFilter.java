@@ -8,6 +8,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.example.java_udemy.dto.CredenciaisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
+/**
+ * Processes an authentication form submission. Called AuthenticationProcessingFilter prior to Spring Security 3.0.
+Login forms must present two parameters to this filter: a username and password.
+ * @author Ian
+ *
+ */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
 	private AuthenticationManager authenticationManager;
@@ -44,7 +52,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	 */
 	
 	@Override
-    public Authentication attemptAuthentication(HttpServletRequest req,
+    public  Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
 		try {
 			
@@ -69,6 +77,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
+		HttpSession session = req.getSession(true);
+		
 		//Adquire o username da resposta do auth
 		String username = ((UserSS) auth.getPrincipal()).getUsername();
 		

@@ -43,8 +43,8 @@ public class ClienteService {
 		
 		//Verifica se o usuário está tendando buscar algum cliente além dele mesmo 
 		UserSS user = UserService.authenticated();
-		if(user == null || !user.hasRole(Perfil.ADMIN) && user.equals(user.getId())) {
-			throw new AuthorizationException("Acesso negado");
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !user.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado para buscar outros clientes");
 			
 		}
 		 Optional<Cliente> cliente = clienterepo.findById(id);
@@ -89,6 +89,7 @@ public class ClienteService {
 		PageRequest pageRequest = PageRequest.of(page_id,linesPerPage,Direction.valueOf(direction),orderBy);
 		return clienterepo.findAll(pageRequest);
 	}
+	
 	
 	public Cliente fromDTO(ClienteDTO objDTO) {
 		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null, null);

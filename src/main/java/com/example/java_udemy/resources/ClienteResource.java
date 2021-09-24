@@ -32,13 +32,13 @@ public class ClienteResource {
 	private ClienteService service;
 
 	
-	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Cliente> retorno(@PathVariable Integer id) {
 		Cliente obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) { // RequestBody vai fazer com que o
 																					// Json seja convertido num Objeto
@@ -59,12 +59,14 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
 
 	// Para retornar todas as categorias paginadas
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -77,6 +79,7 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(listaDTO);
 	}
 
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Page<ClienteDTO>> findPage(
 			@RequestParam(name = "page_id", defaultValue = "0") Integer page_id,
