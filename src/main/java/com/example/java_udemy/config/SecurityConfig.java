@@ -63,6 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		//Desativar o CRSF e configurar o cors
 		http.cors().and().csrf().disable();
+		
+		//Autorizações
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST, PUBLIC_MATCHES_POST).permitAll()
 		.antMatchers(HttpMethod.GET, PUBLIC_MATCHES_GET).permitAll()

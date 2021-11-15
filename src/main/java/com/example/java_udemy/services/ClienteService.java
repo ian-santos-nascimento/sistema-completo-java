@@ -27,7 +27,6 @@ import com.example.java_udemy.services.exception.DataIntegrityException;
 import com.example.java_udemy.services.exception.ObjectNotFoundException;
 
 @Service
-
 public class ClienteService {
 
 	 @Autowired

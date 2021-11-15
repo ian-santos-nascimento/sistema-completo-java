@@ -2,10 +2,12 @@ package com.example.java_udemy.services;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import com.example.java_udemy.security.JWTAuthenticationFilter;
 import com.example.java_udemy.security.UserSS;
 
+@Service
 public class UserService {
 
 		

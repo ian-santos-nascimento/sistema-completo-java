@@ -68,7 +68,7 @@ public class ClienteResource {
 	}
 	
 
-	// Para retornar todas as categorias paginadas
+	// Para retornar todas os Clientes paginadas
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<ClienteDTO>> findAll() {

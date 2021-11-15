@@ -21,6 +21,11 @@ public class AuthService {
 	
 	private Random rand = new Random();
 	
+	/**
+	 * Método que recebe o email do usuário, verifica se o email existe(se o usuário já é cadastrado), salva a nova senha do cliente no banco
+	 * e retorna a nova senha para o email
+	 * @param email
+	 */
 	public void sendNewPasswordEmail(String email) {
 		Cliente cliente = clienteRepository.findByEmail(email);
 		if(cliente == null) {
@@ -42,7 +47,10 @@ public class AuthService {
 		return new String(vet);
 	}
 
-
+/**
+ * Geração de codigo com letras e numeros
+ * @return Retorna uma string que pode ser letras e/ou números
+ */
 	private char randomChar() { 		//Unic-code table
 		int opt = rand.nextInt(3);
 		if (opt == 0) { // gera um digito

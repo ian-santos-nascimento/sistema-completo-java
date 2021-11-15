@@ -32,6 +32,11 @@ public class AuthResource {
 	@Autowired 
 	private AuthService service;
 	
+	/**
+	 * Método que gera um novo token e envia na head da response 
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/refresh_token")
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response){
 		UserSS user = UserService.authenticated();
@@ -40,6 +45,11 @@ public class AuthResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	/**
+	 * Método que envia um email para recuperar senha
+	 * @param objDTO um DTO apenas para receber o email que será enviado a nova senha 
+	 * @return retorna a confirmação no corpo da responsa.
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/forgot")
 	public ResponseEntity<String> forgot(@Valid @RequestBody EmailDTO objDTO){
 		service.sendNewPasswordEmail(objDTO.getEmail());

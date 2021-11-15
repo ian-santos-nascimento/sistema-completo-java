@@ -95,7 +95,7 @@ public class CategoriaResource {
 			@RequestParam(name = "page_id", defaultValue = "0")Integer page_id,
 			@RequestParam(name = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
 			@RequestParam(name = "orderBy", defaultValue = "nome")String orderBy, 
-			@RequestParam(name = "page_direction", defaultValue = "asc")String direction) {   
+			@RequestParam(name = "page_direction", defaultValue = "ASC")String direction) {   
 		
 		Page<Categoria> lista = service.findPage(page_id, linesPerPage, orderBy, direction);
 		Page<CategoriaDTO> listaDTO = lista.map( element -> new CategoriaDTO(element));  //Cada obj da lista do tipo Categoria vai ser transformada em tipo CategoriaDTO
