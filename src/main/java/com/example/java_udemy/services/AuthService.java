@@ -3,6 +3,8 @@ package com.example.java_udemy.services;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.java_udemy.domain.Cliente;
@@ -11,8 +13,10 @@ import com.example.java_udemy.services.exception.ObjectNotFoundException;
 
 @Service
 public class AuthService {
-	
-	
+
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
 	@Autowired
 	private EmailService emailService;
 	
@@ -32,7 +36,7 @@ public class AuthService {
 			throw new ObjectNotFoundException("Email não cadastrado");
 		}
 		String newPassword = newPassword();
-		cliente.setSenha(newPassword);
+		cliente.setSenha(encoder.encode(newPassword));
 		
 		clienteRepository.save(cliente);
 		emailService.sendNewPasswordEmail(cliente, newPassword);

@@ -96,7 +96,6 @@ public class PedidoService {
 	 */
 	public Page<Pedido> findPage(Integer page_id, Integer linesPerPage, String orderBy, String direction) {
 		UserSS user = UserService.authenticated();
-		System.out.print("USUARIO NÃO AUTORIZADO" + user);
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado para buscar pedidos");
 		}

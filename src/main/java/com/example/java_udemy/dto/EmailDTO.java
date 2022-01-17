@@ -15,7 +15,7 @@ public class EmailDTO implements Serializable {
 	private String email;
 
 	public EmailDTO() {
-		super();
+
 	}
 
 	public String getEmail() {
