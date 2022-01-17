@@ -27,17 +27,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Cliente implements Serializable {
 	
 	
-	
 	private static final long serialVersionUID = 1L;
+	
+	
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
 	
 	@Column(unique = true)
 	private String email;
+	
 	private String cpf_Ou_Cnpj;
+	
+	@JsonIgnore
 	private String senha;
+	
 	private Integer tipoCliente;
 	
 	@JsonIgnore
@@ -49,18 +55,18 @@ public class Cliente implements Serializable {
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	@ElementCollection
-	@CollectionTable(name = "TELEFONE")
-	//O Set é uma coleção que não permite repetições 
-	
+	@CollectionTable(name = "TELEFONE")	
 	private Set<String> telefones = new HashSet<>();
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	private  Set<Integer> perfis = new HashSet<>();
+
 	
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE);
 	}
+	
 
 	public Cliente(Integer id, String nome, String email, String cpf_Ou_Cnpj, TipoCliente tipoCliente, String senha) {
 		super();
@@ -163,13 +169,16 @@ public class Cliente implements Serializable {
 		Cliente other = (Cliente) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	public Set<Perfil> getPerfil(){
+
+
+	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
+
 
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getNumero());
 	}
+	
 	
 }

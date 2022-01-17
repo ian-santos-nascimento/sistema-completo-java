@@ -82,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 	
 	
-	//Sobrecarga de método
+	//Tipo de codificação da senha 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(detailsService).passwordEncoder(bCryptPasswordEncoder());

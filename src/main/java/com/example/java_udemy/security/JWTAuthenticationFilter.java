@@ -8,7 +8,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -77,7 +76,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-		HttpSession session = req.getSession(true);
 		
 		//Adquire o username da resposta do auth
 		String username = ((UserSS) auth.getPrincipal()).getUsername();
@@ -97,8 +95,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		@Override
 		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 				AuthenticationException exception) throws IOException, ServletException {
+			
 			//Adicionamos na mão o erro certo(como padrão ele retorna o erro errado)
-			response.setStatus(404);
+			response.setStatus(401);
 			
 			//Tipo da resposta que iremos dar
 			response.setContentType("application/json");

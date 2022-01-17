@@ -1,7 +1,5 @@
 package com.example.java_udemy.security;
 
-import java.io.IOException;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import java.io.IOException;
+
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 
 	private JWTUtil jwtUtil;
@@ -24,7 +24,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 		super(authenticationManager);
 		this.jwtUtil = jwtUtil;
 		this.userDetailsService = userDetailsService;
-		// TODO Auto-generated constructor stub
 	}
 	
 	
@@ -39,11 +38,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 		String header = request.getHeader("Authorization");
 		
 		if(header != null && header.startsWith("Bearer ")) {
+			
 			//getAuthentication() vai receber o token passado na request e armazenado no auth do springSecurity
 			//Caso seja válido é passado, caso não retorna nulo
+			
 			UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
 			
-			//Verifica se o token é válido(Se não for, retorna null)
 			if(auth != null) {
 				
 				//Permite a autenticação do token
@@ -60,7 +60,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 		if(jwtUtil.tokenValido(token)) {
 			String username = jwtUtil.getUsername(token);
 			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-			return new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
+			return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		}
 		return null;
 	}

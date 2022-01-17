@@ -16,7 +16,6 @@ import com.example.java_udemy.domain.ItemPedido;
 import com.example.java_udemy.domain.PagamentoComBoleto;
 import com.example.java_udemy.domain.Pedido;
 import com.example.java_udemy.domain.enums.EstadoPagamento;
-import com.example.java_udemy.domain.enums.Perfil;
 import com.example.java_udemy.repositories.ItemRepository;
 import com.example.java_udemy.repositories.PagamentoRepository;
 import com.example.java_udemy.repositories.PedidoRepository;
@@ -49,12 +48,8 @@ public class PedidoService {
 	private EmailService emailService;
 
 	public Pedido find(Integer id) {
-		UserSS user = UserService.authenticated();
 		Optional<Pedido> obj = pedidoRepository.findById(id);
-		Cliente cliente = clienteService.find(user.getId());
-		if (!cliente.getId().equals(obj.get().getCliente().getId())) {
-			throw new AuthorizationException("Acesso negado para buscar outros pedidos");
-		}
+		
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}

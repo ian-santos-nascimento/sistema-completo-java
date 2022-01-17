@@ -26,25 +26,18 @@ import com.example.java_udemy.services.CategoriaService;
 
   
 @RestController
-@RequestMapping(value="/categorias") //Isso é um handler de url, ou seja ela quem lida com o url, ela suporta métodos Post, Get, Put, Delete e Pacth
-public class CategoriaResource {
+@RequestMapping(value="/categorias") public class CategoriaResource {
 	
-	/*Como é uma operação/requisição básica se usa o GET, Se fosse salvar usaria o POST
-	como fazer o operador buscar uma categoria? Usando o value ="/{id}" no @RequestMapping
-	agora o endpoint do metodo vai ser value ="/categorias/id"
-	Para fazer o id do RequestMapping ir para o arg do "find(Integer id), deve usar o @PathVariable
-	O tipo ResponseEntity é um tipo especial do SpringBoost que armazena informações de uma resposta HTTP para um serviço REST
-	*/
+	
 	
 	@Autowired
-	private CategoriaService service;   //Isso serve para acessar o serviço e lá o metodo vai acessar o objeto de acesso aos dados(repo)
-	
+	private CategoriaService service;
 	
 	@RequestMapping( value ="/{id}", method=RequestMethod.GET)  
 	 //Esse @ResponseBody é para dizer para o metodo retornar um valor que está de acordo com o body da resposta HTTP
 	public @ResponseBody ResponseEntity<Categoria> find(@PathVariable Integer id) {   //Para o "id" do value ="/{id}" ir para o Integer id, usamos o @PathVariable 
 		
-		Categoria obj = service.buscar(id);
+		Categoria obj = service.find(id);
 		
 		return  ResponseEntity.ok().body(obj);  //Se estiver ok ele vai retornar como corpo o objeto obj(Que é a categoria)
 		
@@ -53,7 +46,7 @@ public class CategoriaResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	// ResponseEntity<Void> quer dizer que o body da resposta HTTP vai tá vazia
-	public ResponseEntity<Void> insert (@Valid @RequestBody CategoriaDTO objDTO){  //RequestBody vai fazer com que o Json seja convertido num Objeto
+	public ResponseEntity<Void> insert (@Valid @RequestBody CategoriaDTO objDTO){  
 		Categoria obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		java.net.URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") //O fromCurrentRequest se refere ao request  da classe ((value="/categorias")

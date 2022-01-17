@@ -14,9 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+
 
 import javax.persistence.*;
 
@@ -119,11 +117,6 @@ public class Pedido implements Serializable {
 		this.itens = itens;
 	}
 
-
-
-
-	
-	
 
 	@Override
 	public int hashCode() {

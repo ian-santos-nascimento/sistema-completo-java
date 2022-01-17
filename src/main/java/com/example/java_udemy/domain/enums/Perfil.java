@@ -5,15 +5,14 @@ public enum Perfil {
 	ADMIN(1, "ROLE_ADMIN"),
 	CLIENTE(2, "ROLE_CLIENTE");
 	
+	private Integer numero;
+	private String role;
+	
 	
 	Perfil(int numero, String role) {
 		this.numero = numero;
 		this.role = role;
 	}
-	private Integer numero;
-	private String role;
-	
-
 
 	public Integer getNumero() {
 		return numero;

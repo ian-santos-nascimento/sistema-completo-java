@@ -42,7 +42,7 @@ public class ClienteService {
 		
 		//Verifica se o usuário está tendando buscar algum cliente além dele mesmo 
 		UserSS user = UserService.authenticated();
-		if(user == null || !user.hasRole(Perfil.ADMIN) && !user.equals(user.getId())) {
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado para buscar outros clientes");
 			
 		}
@@ -83,7 +83,6 @@ public class ClienteService {
 		return clienterepo.findAll();
 	}
 	
-//"Page" é uma classe especial do SpringData
 	public Page<Cliente>findPage(Integer page_id, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page_id,linesPerPage,Direction.valueOf(direction),orderBy);
 		return clienterepo.findAll(pageRequest);

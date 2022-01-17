@@ -20,9 +20,13 @@ public class JWTUtil {
 	private Long expiration;
 	
 	public String generateToken(String username) {
-		return Jwts.builder().setSubject(username).setExpiration(new Date(System.currentTimeMillis() + expiration))
-				.signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
+		return Jwts.builder()
+				.setSubject(username)
+				.setExpiration(new Date(System.currentTimeMillis() + expiration))
+				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
+				.compact();
 				}
+	
 	
 	public boolean tokenValido(String token) {
 		
@@ -44,8 +48,7 @@ public class JWTUtil {
 	public String getUsername(String token) {
 		Claims claims = getClaims(token);
 		if(claims != null) {
-			String username = claims.getSubject();
-			return username;
+			return claims.getSubject(); 
 		}
 		return null;
 	}
@@ -53,6 +56,7 @@ public class JWTUtil {
 	private Claims getClaims(String token) {
 		
 		try {
+			
 			//Recupera os claimns a partir do token(Se for inválido lança uma excessão)
 			return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
 		}catch(Exception e) {
