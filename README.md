@@ -16,10 +16,10 @@ Esse projeto é um acompanhamento do curso do https://github.com/acenelio/spring
 ![Captura de tela 2021-07-27 191810](https://user-images.githubusercontent.com/83103221/149698755-51ff9581-ca14-45f5-8dfa-9f3aaba8cd52.png)
 
 ## Subindo o projeto:
--Clone este repositório na sua pasta
--Abra sua IDLE favorita
--Verifique se no arquivo application.properties esta "spring.profiles.active= test" para subir o banco em memória(h2)
--Rode a aplicação e pronto
+- Clone este repositório na sua pasta
+- Abra sua IDLE favorita
+- Verifique se no arquivo application.properties esta "spring.profiles.active= test" para subir o banco em memória(h2)
+- Rode a aplicação e pronto
 
 ## Exemplos de validação:
 - Usuário erra a senha 
