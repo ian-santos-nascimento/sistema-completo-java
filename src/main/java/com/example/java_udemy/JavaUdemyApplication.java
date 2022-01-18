@@ -10,8 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class JavaUdemyApplication implements CommandLineRunner { //CommandLineRunner serve pra métodos iniciarem no inicio da aplciação
 
-	@Autowired
-	private S3Service s3Service;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(JavaUdemyApplication.class, args);
@@ -21,7 +19,6 @@ public class JavaUdemyApplication implements CommandLineRunner { //CommandLineRu
 	
 	@Override
 	public void run(String... args) throws Exception {
-		s3Service.uploadFile("C:\\Users\\Ian\\Desktop\\imagem.png");
 
 	}
 	
