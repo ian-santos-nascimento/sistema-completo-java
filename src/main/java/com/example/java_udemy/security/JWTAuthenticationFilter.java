@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Processes an authentication form submission. Called AuthenticationProcessingFilter prior to Spring Security 3.0.
 Login forms must present two parameters to this filter: a username and password.
+ Resume: This class intercept the login and do the authentication on the received params
  * @author Ian
  *
  */
@@ -58,7 +59,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			//Faço input das credenciais com o request nos atributos da classe CredenciaisDTO
 			CredenciaisDTO credenciais = new ObjectMapper().readValue(req.getInputStream(), CredenciaisDTO.class);
 			
-			//Gero um token de autenticação passando meu email e senha dos atributos adquiridos no CredenciaisDTO
+			//Gero um token de autenticação(do spring security) passando meu email e senha dos atributos adquiridos no CredenciaisDTO
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credenciais.getEmail(),credenciais.getSenha(), new ArrayList<>());
 			
 			//Faço a verificação usando o Authentication e faço o retorno

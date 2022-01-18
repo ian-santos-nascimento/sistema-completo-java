@@ -10,6 +10,7 @@ target/
 .factorypath
 .project
 .settings
+src/main/resources/application.properties
 .springBeans
 .sts4-cache
 
