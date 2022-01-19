@@ -1,10 +1,12 @@
 package com.example.java_udemy.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ClienteService {
 
     @Autowired
-    private ClienteRepository clienterepo;
+    private ClienteRepository clienteRepo;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -43,6 +45,12 @@ public class ClienteService {
 	@Autowired
 	private S3Service s3Service;
 
+    @Autowired
+    private ImageService imageService;
+
+    @Value("${img.prefix.client.profile}")
+    private String clientPrefix;
+
     public Cliente find(Integer id) {
 
         //Verifica se o usuário está tendando buscar algum cliente além dele mesmo
@@ -51,7 +59,7 @@ public class ClienteService {
             throw new AuthorizationException("Acesso negado para buscar outros clientes");
 
         }
-        Optional<Cliente> cliente = clienterepo.findById(id);
+        Optional<Cliente> cliente = clienteRepo.findById(id);
         return cliente.orElseThrow(() -> new ObjectNotFoundException(
                 "Não foi possível encontrar esse cliente. Id: " + id + "Cliente" + Cliente.class.getName()));
     }
@@ -59,7 +67,7 @@ public class ClienteService {
     @Transactional
     public Cliente insert(Cliente obj) {
         obj.setId(null);  //Fazer isso pois se não for nulo, ele irá pensar que é uma atualização e não novo elemento
-        obj = clienterepo.save(obj);
+        obj = clienteRepo.save(obj);
         enderecoRepository.saveAll(obj.getEnderecos());
         return obj;
     }
@@ -69,14 +77,14 @@ public class ClienteService {
         Cliente newObj = find(obj.getId());
         updateData(newObj, obj);
 
-        return clienterepo.save(newObj);
+        return clienteRepo.save(newObj);
     }
 
 
     public void delete(Integer id) {
         find(id);
         try {
-            clienterepo.deleteById(id);
+            clienteRepo.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Não foi possível realizar essa operação de exclusão");
         }
@@ -84,12 +92,12 @@ public class ClienteService {
 
 
     public List<Cliente> findAll() {
-        return clienterepo.findAll();
+        return clienteRepo.findAll();
     }
 
     public Page<Cliente> findPage(Integer page_id, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page_id, linesPerPage, Direction.valueOf(direction), orderBy);
-        return clienterepo.findAll(pageRequest);
+        return clienteRepo.findAll(pageRequest);
     }
 
 
@@ -117,7 +125,13 @@ public class ClienteService {
     }
 
     public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+        UserSS user = UserService.authenticated();
+        if(user == null ){
+            throw new AuthorizationException("Não é permitido inserir foto de perfil sem fazer login");
+        }
+        BufferedImage image = imageService.geJpgImageFromFile(multipartFile);
+        String fileName = clientPrefix + user.getId() + ".jpg";
+		return s3Service.uploadFile(imageService.getInputStream(image, "jpg"), fileName, "image");
     }
 
 }
