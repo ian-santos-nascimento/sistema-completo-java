@@ -1,11 +1,9 @@
 package com.example.java_udemy.services;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.example.java_udemy.services.exception.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.Multipart;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -37,7 +33,7 @@ public class S3Service {
             String content = multipartFile.getContentType();
             return uploadFile(in, fileName, content);
         } catch (IOException e) {
-            throw new RuntimeException("ERRO DE IO" + e.getMessage());
+            throw new FileException("ERRO DE IO" + e.getMessage());
         }
 
     }
@@ -50,7 +46,7 @@ public class S3Service {
             amazonS3.putObject(new PutObjectRequest(bucket, fileName, in, obj));
             return amazonS3.getUrl(bucket, fileName).toURI();
         } catch (java.net.URISyntaxException e) {
-            throw new RuntimeException("ERRO AO TRANSFORMAR URL PARA URI");
+            throw new FileException("ERRO AO TRANSFORMAR URL PARA URI");
         }
     }
 }
