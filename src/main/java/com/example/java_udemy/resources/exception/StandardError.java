@@ -2,44 +2,61 @@ package com.example.java_udemy.resources.exception;
 
 import java.io.Serializable;
 
-
-
-
-
 public class StandardError implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer status;
-	private String mensagemError;
 	private long timeStamp;
-	
-	
-	public StandardError(Integer notFound, String mensagemError, long timeStamp) {
-		super();
-		this.status = notFound;
-		this.mensagemError = mensagemError;
+	private Integer status;
+	private String error;
+	private String message;
+	private String path;
+
+	public StandardError(long timeStamp, Integer status, String error, String message, String path) {
 		this.timeStamp = timeStamp;
-	}
-	
-	
-	public Integer getStatusHTTP() {
-		return status;
-	}
-	public void setStatusHTTP(Integer status) {
 		this.status = status;
+		this.error = error;
+		this.message = message;
+		this.path = path;
 	}
-	public String getMensagemError() {
-		return mensagemError;
-	}
-	public void setMensagemError(String mensagemError) {
-		this.mensagemError = mensagemError;
-	}
+
 	public long getTimeStamp() {
 		return timeStamp;
 	}
+
 	public void setTimeStamp(long timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
 }
