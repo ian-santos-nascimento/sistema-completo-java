@@ -51,6 +51,9 @@ public class ClienteService {
     @Value("${img.prefix.client.profile}")
     private String clientPrefix;
 
+    @Value("${img.profile.size}")
+    private Integer size;
+
     public Cliente find(Integer id) {
 
         //Verifica se o usuário está tendando buscar algum cliente além dele mesmo
@@ -130,6 +133,8 @@ public class ClienteService {
             throw new AuthorizationException("Não é permitido inserir foto de perfil sem fazer login");
         }
         BufferedImage image = imageService.geJpgImageFromFile(multipartFile);
+        image = imageService.cropSquare(image);
+        image = imageService.resize(image, size);
         String fileName = clientPrefix + user.getId() + ".jpg";
 		return s3Service.uploadFile(imageService.getInputStream(image, "jpg"), fileName, "image");
     }
