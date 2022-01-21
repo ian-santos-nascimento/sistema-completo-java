@@ -34,11 +34,16 @@ public class ClienteResource {
 
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Cliente> retorno(@PathVariable Integer id) {
+	public @ResponseBody ResponseEntity<Cliente> find(@PathVariable Integer id) {
 		Cliente obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
+	@RequestMapping(value = "/email", method = RequestMethod.GET)
+	public ResponseEntity<Cliente> find(@RequestParam(value = "value")String email){
+		Cliente cliente = service.findByEmail(email);
+		return ResponseEntity.ok().body(cliente);
+	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) { // RequestBody vai fazer com que o
@@ -60,7 +65,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
