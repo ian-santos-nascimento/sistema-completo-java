@@ -9,10 +9,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-@Component  //Pq pode ser injetada em outras classes
+@Component
 public class JWTUtil {
 
-	//Importados do aplication.properties
+
 	@Value("${jwt.secret}")
 	private String secret;
 

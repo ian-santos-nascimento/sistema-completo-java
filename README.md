@@ -19,6 +19,7 @@ Esse projeto é um acompanhamento do curso do https://github.com/acenelio/spring
 - Clone este repositório na sua pasta
 - Abra sua IDLE favorita
 - Verifique se no arquivo application.properties esta "spring.profiles.active= test" para subir o banco em memória(h2)
+- Altere as propriedades aws.access_key_id e aws.secret_access_key para da sua conta AWS
 - Rode a aplicação e pronto
 
 ## Exemplos de validação:
